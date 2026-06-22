@@ -6,20 +6,92 @@
     <title>Умный Шеф</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f0f2f5; height: 100vh; display: flex; flex-direction: column; }
-        .header { background: #4a76a8; color: white; padding: 14px; text-align: center; font-weight: 700; font-size: 18px; }
-        .messages { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; background: #e5ddd5; }
-        .message { max-width: 85%; padding: 10px 14px; border-radius: 16px; font-size: 15px; line-height: 1.5; word-wrap: break-word; }
-        .user { align-self: flex-end; background: #dcf8c6; border-bottom-right-radius: 4px; }
-        .bot { align-self: flex-start; background: white; border-bottom-left-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-        .input-area { display: flex; padding: 10px; background: white; border-top: 1px solid #e0e0e0; gap: 8px; }
-        .input-area input { flex: 1; padding: 12px; border: 2px solid #e0e0e0; border-radius: 25px; font-size: 16px; outline: none; }
-        .input-area button { background: #4a76a8; color: white; border: none; border-radius: 25px; padding: 12px 20px; font-weight: 600; font-size: 16px; }
-        .thinking { background: #f0f0f0; color: #999; font-style: italic; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+            background: #f0f2f5; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        .header { 
+            background: #4a76a8; 
+            color: white; 
+            padding: 14px; 
+            text-align: center; 
+            font-weight: 700; 
+            font-size: 20px; 
+        }
+        .messages { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 12px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px; 
+            background: #e5ddd5; 
+            -webkit-overflow-scrolling: touch;
+        }
+        .message { 
+            max-width: 85%; 
+            padding: 12px 16px; 
+            border-radius: 18px; 
+            font-size: 16px; 
+            line-height: 1.5; 
+            word-wrap: break-word; 
+        }
+        .user { 
+            align-self: flex-end; 
+            background: #dcf8c6; 
+            border-bottom-right-radius: 4px; 
+        }
+        .bot { 
+            align-self: flex-start; 
+            background: white; 
+            border-bottom-left-radius: 4px; 
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1); 
+        }
+        .input-area { 
+            display: flex; 
+            padding: 10px 12px; 
+            background: white; 
+            border-top: 1px solid #e0e0e0; 
+            gap: 8px; 
+            align-items: center;
+        }
+        .input-area input { 
+            flex: 1; 
+            padding: 14px 16px; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 25px; 
+            font-size: 18px; 
+            outline: none; 
+            background: #f8f8f8;
+            min-height: 50px;
+        }
+        .input-area input:focus {
+            border-color: #4a76a8;
+            background: white;
+        }
+        .input-area button { 
+            background: #4a76a8; 
+            color: white; 
+            border: none; 
+            border-radius: 25px; 
+            padding: 14px 24px; 
+            font-weight: 600; 
+            font-size: 18px; 
+            min-height: 50px;
+            white-space: nowrap;
+        }
+        .thinking { 
+            background: #f0f0f0; 
+            color: #999; 
+            font-style: italic; 
+        }
     </style>
 </head>
 <body>
-    <div class="header">🥗 Умный Шеф</div>
+    <div class="header">Я планировщик семейного питания </div>
     <div class="messages" id="messages">
         <div class="message bot">
             👋 <b>Привет, Роза!</b><br><br>
@@ -31,14 +103,15 @@
         <input type="text" id="userInput" placeholder="Напишите запрос..." onkeypress="if(event.key==='Enter') sendMessage()">
         <button onclick="sendMessage()">➤</button>
     </div>
-
     <script>
+        // Ссылка на ваш Google Apps Script
         const API_URL = 'https://script.google.com/macros/s/AKfycbxLF-v3qRGarLozy4sOXoEqhyfV6by-K_qdAtkxIUbtrbv7E1vLkl8pbLNW0juQate6/exec';
+
         
         function addMessage(text, sender) {
             const div = document.createElement('div');
-            div.className = `message ${sender}`;
-            div.innerHTML = text.replace(/\n/g, '<br>');
+            div.className = 'message ' + sender;
+            div.innerHTML = text.replace(/\\n/g, '<br>');
             document.getElementById('messages').appendChild(div);
             div.scrollIntoView({ behavior: 'smooth' });
         }
